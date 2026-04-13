@@ -1,0 +1,49 @@
+name: Setup Clipper
+description: Install the Clipper CLI for chunked OCI image pulls
+branding:
+  icon: download
+  color: blue
+
+inputs:
+  version:
+    description: Clipper version to install (e.g. v0.1.0). Defaults to latest.
+    required: false
+    default: latest
+  token:
+    description: GitHub token for downloading release assets. Defaults to GITHUB_TOKEN.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Clipper
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        set -euo pipefail
+
+        ARCH=$(uname -m)
+        case "$ARCH" in
+          x86_64)  ARCH=amd64 ;;
+          aarch64) ARCH=arm64 ;;
+          *)       echo "Unsupported architecture: $ARCH" >&2; exit 1 ;;
+        esac
+
+        if [ "$VERSION" = "latest" ]; then
+          URL="https://dl.clipper.dev/clipper-linux-${ARCH}"
+        else
+          URL="https://dl.clipper.dev/archive/${VERSION}/clipper-linux-${ARCH}"
+        fi
+
+        INSTALL_DIR="$RUNNER_TEMP/clipper"
+        mkdir -p "$INSTALL_DIR"
+
+        echo "Downloading clipper from $URL ..."
+        curl -fsSL "$URL" -o "$INSTALL_DIR/clipper"
+        chmod +x "$INSTALL_DIR/clipper"
+
+        echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+        echo "Installed clipper $("$INSTALL_DIR/clipper" --version 2>&1 || echo "$VERSION")"
