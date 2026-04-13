@@ -22,4 +22,3 @@ GitHub Action to install the [Clipper](https://clipper.dev) CLI.
 | Input | Description | Default |
 |-------|-------------|---------|
 | `version` | Clipper version to install (e.g. `v0.3.0`) | `latest` |
-| `token` | GitHub token for API access | `${{ github.token }}` |

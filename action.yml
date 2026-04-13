@@ -9,10 +9,6 @@ inputs:
     description: Clipper version to install (e.g. v0.1.0). Defaults to latest.
     required: false
     default: latest
-  token:
-    description: GitHub token for downloading release assets. Defaults to GITHUB_TOKEN.
-    required: false
-    default: ${{ github.token }}
 
 runs:
   using: composite
@@ -21,7 +17,6 @@ runs:
       shell: bash
       env:
         VERSION: ${{ inputs.version }}
-        GH_TOKEN: ${{ inputs.token }}
       run: |
         set -euo pipefail
 
