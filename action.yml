@@ -20,17 +20,19 @@ runs:
       run: |
         set -euo pipefail
 
+        OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         ARCH=$(uname -m)
         case "$ARCH" in
           x86_64)  ARCH=amd64 ;;
           aarch64) ARCH=arm64 ;;
+          arm64)   ARCH=arm64 ;;
           *)       echo "Unsupported architecture: $ARCH" >&2; exit 1 ;;
         esac
 
         if [ "$VERSION" = "latest" ]; then
-          URL="https://dl.clipper.dev/clipper-linux-${ARCH}"
+          URL="https://dl.clipper.dev/clipper-${OS}-${ARCH}"
         else
-          URL="https://dl.clipper.dev/archive/${VERSION}/clipper-linux-${ARCH}"
+          URL="https://dl.clipper.dev/archive/${VERSION}/clipper-${OS}-${ARCH}"
         fi
 
         INSTALL_DIR="$RUNNER_TEMP/clipper"
