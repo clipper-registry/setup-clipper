@@ -35,12 +35,8 @@ runs:
           URL="https://dl.clipper.dev/archive/${VERSION}/clipper-${OS}-${ARCH}"
         fi
 
-        INSTALL_DIR="$RUNNER_TEMP/clipper"
-        mkdir -p "$INSTALL_DIR"
-
         echo "Downloading clipper from $URL ..."
-        curl -fsSL "$URL" -o "$INSTALL_DIR/clipper"
-        chmod +x "$INSTALL_DIR/clipper"
+        curl -fsSL "$URL" -o /usr/local/bin/clipper
+        chmod +x /usr/local/bin/clipper
 
-        echo "$INSTALL_DIR" >> "$GITHUB_PATH"
-        echo "Installed clipper $("$INSTALL_DIR/clipper" version 2>&1 || echo "$VERSION")"
+        echo "Installed clipper $(clipper version 2>&1 || echo "$VERSION")"
