@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./
-      - run: clipper --version
+      - run: clipper version
 
   test-pinned:
     runs-on: ubuntu-latest
@@ -20,11 +20,11 @@ jobs:
       - uses: ./
         with:
           version: v0.9.2
-      - run: clipper --version
+      - run: clipper version
 
   test-arm64:
     runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
       - uses: ./
-      - run: clipper --version
+      - run: clipper version
